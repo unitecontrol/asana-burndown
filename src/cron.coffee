@@ -7,8 +7,6 @@ projects = require './config/projects'
 
 db = new Engine.Db('./data/db', {})
 
-collection = db.collection "durationsCron"
-
 new CronJob '59 59 23 * * 1-5', ->
 	pad = (t)->
 		(if t < 10 then '0' + t else t)
@@ -27,6 +25,8 @@ new CronJob '59 59 23 * * 1-5', ->
 
 
 processProject = (projectName, projectID, date)->
+	collection = db.collection "durationsCron"
+
 	asana.tasksOfProject projectID, (err, result)->
 		return console.error if err
 
