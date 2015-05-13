@@ -3,9 +3,10 @@ router = express.Router()
 
 Engine = require('tingodb')()
 db = new Engine.Db('./data/db', {})
-collection = db.collection "durationsCron"
 
 router.get '/:projectID', (req, res)->
+
+	collection = db.collection "durationsCron"
 
 	collection.findOne {id:req.params.projectID}, (err, result)->
 		if err

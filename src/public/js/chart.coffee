@@ -10,9 +10,14 @@ $ ->
 			data[0][index] = [date, info.completedHours]
 			data[1][index] = [date, info.unCompletedHours]
 
-		$('#container').highcharts
+		Highcharts.setOptions
+			global:
+				useUTC: false
+
+		chart = new Highcharts.StockChart
 			chart:
 				type:	'area'
+				renderTo: "container"
 
 			title:
 				text:	"Burn down chart [#{result.name}]"
@@ -24,6 +29,7 @@ $ ->
 					enabled: false
 
 			yAxis:
+				opposite: false
 				title:
 					text: 'Sum of durations'
 
