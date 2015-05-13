@@ -1,0 +1,30 @@
+doctype html
+html
+	head
+		title UC-BurnDown
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+
+		script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+		script(type="text/javascript", src="/js/highcharts.js")
+		script(type="text/javascript", src="/js/bootstrap.min.js")
+
+	body
+		.dropdown
+			button(class="btn btn-default dropdown-toggle", type="button", id="dropdownMenu1", data-toggle="dropdown", aria-expanded="true")
+				| Choose project
+				span.caret
+			ul(class="dropdown-menu", role="menu", aria-labelledby="dropdownMenu1")
+				each id, name in projects
+					li(role="presentation")
+						a(role="menuitem", tabindex="-1", href="/"+id)= name
+
+		#container(style="min-width: 310px; height: 400px; margin: 0 auto")
+
+		script.
+			var projectID = !{projectID};
+
+		script(type="text/javascript", src="/js/chart.js")

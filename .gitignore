@@ -1,0 +1,4 @@
+node_modules/
+data/db/
+src/config/projects.json
+src/config/asana.json
