@@ -12,7 +12,7 @@ $ ->
 
 		Highcharts.setOptions
 			global:
-				useUTC: false
+				useUTC: true
 
 		chart = new Highcharts.StockChart
 			chart:
