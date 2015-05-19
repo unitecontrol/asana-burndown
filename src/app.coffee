@@ -20,9 +20,13 @@ mkdirp.sync "./data/db"
 
 app.use '/', require './routes/index'
 
-app.use '/durations', require('./routes/durations')
+Engine = require('tingodb')()
+db = new Engine.Db('./data/db', {})
+collection = db.collection "durationsCron"
 
-require './cron'
+app.use '/durations', require('./routes/durations')(collection)
+
+require('./cron')(collection)
 
 server = app.listen 3003, ->
 	port = server.address().port
