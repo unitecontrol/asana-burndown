@@ -22,11 +22,10 @@ app.use '/', require './routes/index'
 
 Engine = require('tingodb')()
 db = new Engine.Db('./data/db', {})
-collection = db.collection "durationsCron"
 
-app.use '/durations', require('./routes/durations')(collection)
+app.use '/durations', require('./routes/durations')(db)
 
-require('./cron')(collection)
+require('./cron')(db)
 
 server = app.listen 3003, ->
 	port = server.address().port

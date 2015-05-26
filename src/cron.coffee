@@ -4,7 +4,7 @@ CronJob = require('cron').CronJob
 holidays = require './config/holidays'
 projects = require './config/projects'
 
-module.exports = (collection)->
+module.exports = (db)->
 	new CronJob '59 59 23 * * 1-5', ->
 		pad = (t)->
 			(if t < 10 then '0' + t else t)
@@ -38,15 +38,18 @@ module.exports = (collection)->
 
 			durationObj = {date: date, completedHours, unCompletedHours}
 
-			collection.update {id: projectID}, {$push:{durations:durationObj}}, (err, res)->
-				if err
-					console.error "#{new Date()}: error = #{err}"
-				else
-					if res is 0
-						collection.insert {id: projectID, name: projectName, durations:[durationObj]}, (err, res)->
-							echoInfo projectName, completedHours, unCompletedHours
+			db.collection "durationsCron", (err, collection)->
+				return console.error err if err
+
+				collection.update {id: projectID}, {$push:{durations:durationObj}}, (err, res)->
+					if err
+						console.error "#{new Date()}: error = #{err}"
 					else
-						echoInfo projectName, completedHours, unCompletedHours
+						if res is 0
+							collection.insert {id: projectID, name: projectName, durations:[durationObj]}, (err, res)->
+								echoInfo projectName, completedHours, unCompletedHours
+						else
+							echoInfo projectName, completedHours, unCompletedHours
 
 	echoInfo = (projectName, completed, unCompleted)->
 		console.log "#{new Date()}> #{projectName} update result: completed=#{completed}h, unCompleted=#{unCompleted}h"
