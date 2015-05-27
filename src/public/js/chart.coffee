@@ -35,6 +35,7 @@ $ ->
 
 			tooltip:
 				shared: true
+				valueDecimals: 1
 
 			plotOptions:
 				area:
